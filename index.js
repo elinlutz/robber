@@ -17,31 +17,32 @@ app.use(router.allowedMethods())
 
 // The REALLY nice thing about koa-router is to return something, all you have to say is ctx.body = ‘The thing I want to send’.
 // En enkel microtjänst som översätter till och från rövarspråket. Komplett med Jest för tester.
-var testsentence = 'Totesostot'
-var testsentence2 = 'DoDtottota äror enon totesostotmomenoninongog.., ..'
+var encodetest = 'Totesostot'
+var decodetest = 'DoDetottota äror enon totesostotmomenoninongog.., ..'
 
-encoder(testsentence)
-decoder(testsentence2)
+encoder(encodetest)
+decoder(decodetest)
 
 function encoder (sentence) {
-  let finalsentence = []
+  let encodedSentence = []
   for (const letter of sentence) {
-    encodeLetter(letter, finalsentence)
+    encodeLetter(letter, encodedSentence)
   }
-  console.log('Encoded sentence   -   ', finalsentence.join(''))
-  return finalsentence.join('')
+  console.log('Encoded sentence   -   ', encodedSentence.join(''))
+  return encodedSentence.join('')
 }
 
 // TODO: Write decoder
 function decoder (sentence) {
-  let finalsentence = []
+  let decodedSentence = []
   if (isRobberLanguage(sentence)) {
     console.log('it is robber language')
-    decodeSentence()
+    decodeSentence(sentence, decodedSentence)
   } else {
+    console.log('Not Robber language')
     return 'Not decodable'
   }
-  console.log('Decoded sentence   -   ', finalsentence.join(''))
+  console.log('Decoded sentence   -   ', decodedSentence.join(''))
   return ('totestost')
 }
 
@@ -52,15 +53,24 @@ function isRobberLanguage (sentence) {
     if (consonants.charAt(0) === consonants.charAt(1)) {
       consonants = consonants.substr(2)
     } else {
-      console.log('Detta är inte rövarspråket')
       return false
     }
   }
   return true
 }
 
-function decodeSentence () {
-
+function decodeSentence (sentence, finalsentence) {
+  for (var n = 0; n <= sentence.length; n++) {
+    var letter = sentence.charAt(n)
+    const upperLetter = letter.toUpperCase()
+    if (['A', 'O', 'U', 'Å', 'E', 'I', 'Y', 'Ä', 'Ö'].indexOf(upperLetter) >= 0) {
+      finalsentence.push(letter)
+      n = n++
+    } else if (sentence.charAt(n) === sentence.charAt(n + 2)) {
+      finalsentence.push(sentence.charAt(n))
+      n = n + 2
+    }
+  }
 }
 
 // check if its a vowel, if its a vowel push it directly (otherwise add an O)
