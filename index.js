@@ -69,6 +69,8 @@ function decodeSentence (sentence, finalsentence) {
     } else if (sentence.charAt(n) === sentence.charAt(n + 2)) {
       finalsentence.push(sentence.charAt(n))
       n = n + 2
+    } else {
+      n++
     }
   }
 }
