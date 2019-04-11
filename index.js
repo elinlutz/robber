@@ -15,36 +15,33 @@ app.use(logger())
 app.use(router.routes())
 app.use(router.allowedMethods())
 
-//The REALLY nice thing about koa-router is to return something, all you have to say is ctx.body = ‘The thing I want to send’.
-//En enkel microtjänst som översätter till och från rövarspråket. Komplett med Jest för tester.
-//var mening = 'Detta, är en textmening.'
-//var mening2 = 'Dododettotta äror enon totexoxtotmomenoninongog.'
+// The REALLY nice thing about koa-router is to return something, all you have to say is ctx.body = ‘The thing I want to send’.
+// En enkel microtjänst som översätter till och från rövarspråket. Komplett med Jest för tester.
+// var mening = 'Detta, är en textmening.'
+// var mening2 = 'Dododettotta äror enon totexoxtotmomenoninongog.'
 
-let finalsentence = []
-
-function encoder(mening) {
+function encoder (mening) {
+  let finalsentence = []
   for (const letter of mening) {
-    encode(letter)
+    encodeLetter(letter, finalsentence)
   }
-  //console.log("Encoded sentence   -   ", finalsentence.join(''))
+  console.log('Encoded sentence   -   ', finalsentence.join(''))
   return finalsentence.join('')
 }
 
-//TODO: Write decoder
-function decode(mening2) {
+// TODO: Write decoder
+function decode (mening2) {
 }
 
-//check if its a vowel, if its a vowel push it directly (otherwise add an O)
-function encode(letter) {
-  upperLetter = letter.toUpperCase()
+// check if its a vowel, if its a vowel push it directly (otherwise add an O)
+function encodeLetter (letter, finalsentence) {
+  const upperLetter = letter.toUpperCase()
   if (['A', 'O', 'U', 'Å', 'E', 'I', 'Y', 'Ä', 'Ö'].indexOf(upperLetter) >= 0) {
     finalsentence.push(letter)
-    }
-  else if ([' ', '.', ','].indexOf(letter) >= 0) {
+  } else if ([' ', '.', ','].indexOf(letter) >= 0) {
     finalsentence.push(letter)
-  }
-  else {
-    finalsentence.push(letter +'o'+ letter.toLowerCase())
+  } else {
+    finalsentence.push(letter + 'o' + letter.toLowerCase())
   }
 }
 
