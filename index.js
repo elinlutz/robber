@@ -17,12 +17,15 @@ app.use(router.allowedMethods())
 
 // The REALLY nice thing about koa-router is to return something, all you have to say is ctx.body = ‘The thing I want to send’.
 // En enkel microtjänst som översätter till och från rövarspråket. Komplett med Jest för tester.
-// var mening = 'Detta, är en textmening.'
-// var mening2 = 'Dododettotta äror enon totexoxtotmomenoninongog.'
+var testsentence = 'Totesostot'
+var testsentence2 = 'DoDtottota äror enon totesostotmomenoninongog.., ..'
 
-function encoder (mening) {
+encoder(testsentence)
+decoder(testsentence2)
+
+function encoder (sentence) {
   let finalsentence = []
-  for (const letter of mening) {
+  for (const letter of sentence) {
     encodeLetter(letter, finalsentence)
   }
   console.log('Encoded sentence   -   ', finalsentence.join(''))
@@ -30,7 +33,34 @@ function encoder (mening) {
 }
 
 // TODO: Write decoder
-function decode (mening2) {
+function decoder (sentence) {
+  let finalsentence = []
+  if (isRobberLanguage(sentence)) {
+    console.log('it is robber language')
+    decodeSentence()
+  } else {
+    return 'Not decodable'
+  }
+  console.log('Decoded sentence   -   ', finalsentence.join(''))
+  return ('totestost')
+}
+
+function isRobberLanguage (sentence) {
+  // ta bort alla vokaler och komman, punkter, blanksteg
+  var consonants = sentence.replace(/a|o|u|å|e|i|y|ä|ö|[.,\s]/gi, '')
+  for (var i = consonants.length / 2; i >= 0; i--) {
+    if (consonants.charAt(0) === consonants.charAt(1)) {
+      consonants = consonants.substr(2)
+    } else {
+      console.log('Detta är inte rövarspråket')
+      return false
+    }
+  }
+  return true
+}
+
+function decodeSentence () {
+
 }
 
 // check if its a vowel, if its a vowel push it directly (otherwise add an O)
@@ -60,7 +90,7 @@ router.post('/encode', koaBody(), (ctx, next) => {
 router.post('/decode', koaBody(), (ctx, next) => {
   const body = ctx.request.body
   if (!body.input) ctx.throw(400, '.input is required')
-  ctx.body = 'Decoding your string into rövarspråket...'
+  ctx.body = decoder(body.input)
 })
 
 const server = app.listen(3000)
