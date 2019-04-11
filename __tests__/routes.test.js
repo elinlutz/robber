@@ -1,12 +1,9 @@
 /* eslint-env jest */
 
 const request = require('supertest')
-const server = require('../index.js')
+const server = require('../app.js')
 
-// Everything in Jest is based on async/await, so we know we can do
-// things in the right order without weird stuff.
 beforeAll(async () => {
-  // do something before anything else runs
   console.log('Jest starting up!')
 })
 
@@ -15,14 +12,11 @@ afterAll(() => {
   console.log('Server closed!')
 })
 
-// describe() is used to chunk a group of tests together. For example, in this
-// scenario I named it ‘basic route tests’ because I’m going to test the public routes.
-
 describe('Basic route tests', () => {
   test('get home route GET/', async () => {
     const response = await request(server).get('/')
     expect(response.status).toEqual(200)
-    expect(response.text).toContain('Hello World')
+    expect(response.text).toContain('Hello World!')
   })
 })
 
@@ -35,7 +29,7 @@ describe('POST /encode', function () {
   test('input sentence missing in body', async () => {
     const response = await request(server).post('/encode').send({ unvalidinput: '' })
     expect(response.status).toEqual(400)
-    expect(response.text).toContain('required')
+    expect(response.text).toContain('input is required')
   })
 })
 
@@ -48,11 +42,11 @@ describe('POST /decode', function () {
   test('posting input sentence that is not robber language', async () => {
     const response = await request(server).post('/decode').send({ input: 'testotest' })
     expect(response.status).toEqual(200)
-    expect(response.text).toContain('Not decodable')
+    expect(response.text).toContain('not decodable')
   })
   test('input sentence missing in body', async () => {
     const response = await request(server).post('/encode').send({ unvalidinput: '' })
     expect(response.status).toEqual(400)
-    expect(response.text).toContain('required')
+    expect(response.text).toContain('input is required')
   })
 })
