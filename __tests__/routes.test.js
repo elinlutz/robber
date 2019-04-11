@@ -36,3 +36,16 @@ describe('POST /encode', function () {
     expect(response.text).toContain('required')
   })
 })
+
+describe('POST /decode', function () {
+  test('posting an input sentence to be decoded', async () => {
+    const response = await request(server).post('/decode').send({ input: 'totesostot' })
+    expect(response.status).toEqual(200)
+    expect(response.text).toContain('test')
+  })
+  test('input sentence missing in body', async () => {
+    const response = await request(server).post('/encode').send({ unvalidinput: '' })
+    expect(response.status).toEqual(400)
+    expect(response.text).toContain('required')
+  })
+})
