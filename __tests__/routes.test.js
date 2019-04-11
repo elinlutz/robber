@@ -1,3 +1,5 @@
+/* eslint-env jest */
+
 const request = require('supertest')
 const server = require('../index.js')
 
@@ -42,6 +44,11 @@ describe('POST /decode', function () {
     const response = await request(server).post('/decode').send({ input: 'totesostot' })
     expect(response.status).toEqual(200)
     expect(response.text).toContain('test')
+  })
+  test('posting input sentence that is not robber language', async () => {
+    const response = await request(server).post('/decode').send({ input: 'testotest' })
+    expect(response.status).toEqual(200)
+    expect(response.text).toContain('Not decodable')
   })
   test('input sentence missing in body', async () => {
     const response = await request(server).post('/encode').send({ unvalidinput: '' })
