@@ -39,5 +39,3 @@ Post your sentence in body, with parameter input. Server accepts Type: JSON (app
 * **Responses**  
 	200: Ok!  
 	401: No input sentence in request.  
-	500: Something went wrong.  
-
