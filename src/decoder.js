@@ -2,6 +2,7 @@ function decode (sentence) {
   let decodedSentence = []
   if (isRobberLanguage(sentence)) {
     decodeSentence(sentence, decodedSentence)
+    console.log(decodedSentence.join(''))
     return decodedSentence.join('')
   } else {
     return 'Your sentence is not decodable. Try again.'
@@ -9,7 +10,7 @@ function decode (sentence) {
 }
 
 function isRobberLanguage (sentence) {
-  var consonants = sentence.replace(/a|o|u|å|e|i|y|ä|ö|[.,\s]/gi, '')
+  var consonants = sentence.replace(/a|o|u|å|e|i|y|ä|ö|[.,\s]/gi, '').toUpperCase()
   for (var i = consonants.length / 2; i >= 0; i--) {
     if (consonants.charAt(0) === consonants.charAt(1)) {
       consonants = consonants.substr(2)
@@ -27,7 +28,7 @@ function decodeSentence (sentence, finalsentence) {
     if (['A', 'O', 'U', 'Å', 'E', 'I', 'Y', 'Ä', 'Ö'].indexOf(upperLetter) >= 0) {
       finalsentence.push(letter)
       n = n++
-    } else if (sentence.charAt(n) === sentence.charAt(n + 2)) {
+    } else if (sentence.charAt(n).toUpperCase() === sentence.charAt(n + 2).toUpperCase()) {
       finalsentence.push(sentence.charAt(n))
       n = n + 2
     } else {
