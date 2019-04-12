@@ -2,7 +2,6 @@ function decode (sentence) {
   let decodedSentence = []
   if (isRobberLanguage(sentence)) {
     decodeSentence(sentence, decodedSentence)
-    console.log(decodedSentence.join(''))
     return decodedSentence.join('')
   } else {
     return 'Your sentence is not decodable. Try again.'
@@ -27,7 +26,6 @@ function decodeSentence (sentence, finalsentence) {
     const upperLetter = letter.toUpperCase()
     if (['A', 'O', 'U', 'Å', 'E', 'I', 'Y', 'Ä', 'Ö'].indexOf(upperLetter) >= 0) {
       finalsentence.push(letter)
-      n = n++
     } else if (sentence.charAt(n).toUpperCase() === sentence.charAt(n + 2).toUpperCase()) {
       finalsentence.push(sentence.charAt(n))
       n = n + 2
